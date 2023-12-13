@@ -13,11 +13,10 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort {
     // 35분부터 다시 봐야함
     @Override
     public MembershipJpaEntity createMembership(Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp) {
-        membershipRepository.save(new MembershipJpaEntity(membershipName.getNameValue(),
+        return membershipRepository.save(new MembershipJpaEntity(membershipName.getNameValue(),
                 membershipEmail.getEmailValue(),
                 membershipAddress.getAddressValue(),
                 membershipIsValid.isValidValue(),
                 membershipIsCorp.isCorpValue()));
-        return null;
     }
 }
