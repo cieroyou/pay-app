@@ -17,7 +17,7 @@ public class RegisterMembershipController {
 
     private final RegistermembershipUseCase registermembershipUseCase;
 
-    @PostMapping
+    @PostMapping(value = "/membership/register")
     void resisterMembership(@RequestBody RegisterMembershipRequest request) {
 
         RegisterMembershipCommand command = RegisterMembershipCommand.builder()
