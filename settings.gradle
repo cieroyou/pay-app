@@ -1,0 +1,8 @@
+rootProject.name = 'pay-app'
+include 'mebership-service'
+include 'mebership-service'
+include 'membership-service'
+include 'membership-service'
+include 'membership-service'
+include 'membership-service'
+
