@@ -3,7 +3,7 @@ package com.sera.payapp.membership.application.service;
 import com.sera.payapp.membership.adapter.out.persistence.MembershipJpaEntity;
 import com.sera.payapp.membership.adapter.out.persistence.MembershipMapper;
 import com.sera.payapp.membership.application.port.in.RegisterMembershipCommand;
-import com.sera.payapp.membership.application.port.in.RegistermembershipUseCase;
+import com.sera.payapp.membership.application.port.in.RegisterMembershipUseCase;
 import com.sera.payapp.membership.application.port.out.RegisterMembershipPort;
 import com.sera.payapp.membership.common.UseCase;
 import com.sera.payapp.membership.domain.Membership;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 @UseCase
-public class RegisterMembershipService implements RegistermembershipUseCase {
+public class RegisterMembershipService implements RegisterMembershipUseCase {
 
     private final RegisterMembershipPort registerMembershipPort;
     private final MembershipMapper membershipMapper;
