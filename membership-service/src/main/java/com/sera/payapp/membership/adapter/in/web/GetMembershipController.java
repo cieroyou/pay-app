@@ -19,7 +19,8 @@ public class GetMembershipController {
     private final GetMembershipUseCase getMembershipUseCase;
 
     @GetMapping(value = "/membership/{membershipId}")
-    Membership getMembership(@PathVariable(name = "membershipId") String membershipId) {
+    Membership getMembership(@Schema(description = "Membership ID", example = "1")
+                             @PathVariable(name = "membershipId") String membershipId) {
         GetMembershipQuery query = new GetMembershipQuery(membershipId);
         return getMembershipUseCase.getMembership(query);
     }
