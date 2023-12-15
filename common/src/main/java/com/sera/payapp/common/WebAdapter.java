@@ -1,4 +1,4 @@
-package com.sera.payapp.membership.common;
+package com.sera.payapp.common;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

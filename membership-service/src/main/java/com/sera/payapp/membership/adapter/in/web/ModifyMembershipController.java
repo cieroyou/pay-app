@@ -1,10 +1,10 @@
 package com.sera.payapp.membership.adapter.in.web;
 
 
+import com.sera.payapp.common.WebAdapter;
 import com.sera.payapp.membership.adapter.in.web.dto.ModifyMembershipRequest;
 import com.sera.payapp.membership.application.port.in.ModifyMembershipCommand;
 import com.sera.payapp.membership.application.port.in.ModifyMembershipUseCase;
-import com.sera.payapp.membership.common.WebAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

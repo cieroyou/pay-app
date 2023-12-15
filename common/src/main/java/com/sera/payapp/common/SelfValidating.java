@@ -1,4 +1,4 @@
-package com.sera.payapp.membership.common;
+package com.sera.payapp.common;
 
 
 import jakarta.validation.*;

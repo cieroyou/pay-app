@@ -1,9 +1,9 @@
 package com.sera.payapp.membership.adapter.out.persistence;
 
+import com.sera.payapp.common.PersistenceAdapter;
 import com.sera.payapp.membership.application.port.out.GetMembershipPort;
 import com.sera.payapp.membership.application.port.out.ModifyMembershipPort;
 import com.sera.payapp.membership.application.port.out.RegisterMembershipPort;
-import com.sera.payapp.membership.common.PersistenceAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 

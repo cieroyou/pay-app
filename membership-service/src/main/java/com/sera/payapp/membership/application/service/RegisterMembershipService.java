@@ -1,11 +1,11 @@
 package com.sera.payapp.membership.application.service;
 
+import com.sera.payapp.common.UseCase;
 import com.sera.payapp.membership.adapter.out.persistence.MembershipJpaEntity;
 import com.sera.payapp.membership.adapter.out.persistence.MembershipMapper;
 import com.sera.payapp.membership.application.port.in.RegisterMembershipCommand;
 import com.sera.payapp.membership.application.port.in.RegisterMembershipUseCase;
 import com.sera.payapp.membership.application.port.out.RegisterMembershipPort;
-import com.sera.payapp.membership.common.UseCase;
 import com.sera.payapp.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

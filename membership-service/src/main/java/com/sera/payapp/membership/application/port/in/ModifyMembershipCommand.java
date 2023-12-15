@@ -1,6 +1,6 @@
 package com.sera.payapp.membership.application.port.in;
 
-import com.sera.payapp.membership.common.SelfValidating;
+import com.sera.payapp.common.SelfValidating;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

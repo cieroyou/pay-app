@@ -1,9 +1,9 @@
 package com.sera.payapp.membership.adapter.in.web;
 
 
+import com.sera.payapp.common.WebAdapter;
 import com.sera.payapp.membership.application.port.in.GetMembershipQuery;
 import com.sera.payapp.membership.application.port.in.GetMembershipUseCase;
-import com.sera.payapp.membership.common.WebAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
