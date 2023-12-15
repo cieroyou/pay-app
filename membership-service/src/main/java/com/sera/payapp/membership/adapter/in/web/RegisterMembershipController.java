@@ -7,6 +7,7 @@ import com.sera.payapp.membership.application.port.in.RegisterMembershipUseCase;
 import com.sera.payapp.membership.common.WebAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class RegisterMembershipController {
     private final RegisterMembershipUseCase registerMembershipUseCase;
 
     @PostMapping(value = "/membership/register")
-    Membership resisterMembership(@RequestBody RegisterMembershipRequest request) {
+    ResponseEntity<Membership> resisterMembership(@RequestBody RegisterMembershipRequest request) {
 
         RegisterMembershipCommand command = RegisterMembershipCommand.builder()
                 .name(request.getName())
@@ -29,7 +30,7 @@ public class RegisterMembershipController {
                 .isCorp(request.isCorp())
                 .build();
 
-        return registerMembershipUseCase.registerMembership(command);
+        return ResponseEntity.ok(registerMembershipUseCase.registerMembership(command));
     }
 
 }

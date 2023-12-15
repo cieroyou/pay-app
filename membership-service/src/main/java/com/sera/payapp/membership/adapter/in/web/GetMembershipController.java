@@ -7,6 +7,7 @@ import com.sera.payapp.membership.common.WebAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,9 @@ public class GetMembershipController {
     private final GetMembershipUseCase getMembershipUseCase;
 
     @GetMapping(value = "/membership/{membershipId}")
-    Membership getMembership(@Schema(description = "Membership ID", example = "1")
-                             @PathVariable(name = "membershipId") String membershipId) {
+    ResponseEntity<Membership> getMembership(@Schema(description = "Membership ID", example = "1")
+                                             @PathVariable(name = "membershipId") String membershipId) {
         GetMembershipQuery query = new GetMembershipQuery(membershipId);
-        return getMembershipUseCase.getMembership(query);
+        return ResponseEntity.ok(getMembershipUseCase.getMembership(query));
     }
 }

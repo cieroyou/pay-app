@@ -7,6 +7,7 @@ import com.sera.payapp.membership.application.port.in.ModifyMembershipUseCase;
 import com.sera.payapp.membership.common.WebAdapter;
 import com.sera.payapp.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class ModifyMembershipController {
     private final ModifyMembershipUseCase modifyMembershipUseCase;
 
     @PutMapping(value = "/membership/modify/{membershipId}")
-    Membership modifyMembership(
+    ResponseEntity<Membership> modifyMembership(
             @PathVariable(name = "membershipId") String membershipId,
             @RequestBody ModifyMembershipRequest request) {
 
@@ -33,7 +34,7 @@ public class ModifyMembershipController {
                 .isCorp(request.isCorp())
                 .build();
 
-        return modifyMembershipUseCase.modifyMembership(command);
+        return ResponseEntity.ok(modifyMembershipUseCase.modifyMembership(command));
     }
 
 }
