@@ -1,10 +1,12 @@
 package com.sera.payapp.banking.application.service;
 
+import com.sera.payapp.banking.adapter.out.external.bank.BankAccountInfo;
 import com.sera.payapp.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
 import com.sera.payapp.banking.adapter.out.persistence.RegisteredBankAccountMapper;
 import com.sera.payapp.banking.application.port.in.RegisterBankAccountCommand;
 import com.sera.payapp.banking.application.port.in.RegisterBankAccountUseCase;
 import com.sera.payapp.banking.application.port.out.RegisterBankAccountPort;
+import com.sera.payapp.banking.application.port.out.RequestBankAccountInfoPort;
 import com.sera.payapp.banking.domain.RegisteredBankAccount;
 import com.sera.payapp.common.UseCase;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +18,21 @@ import org.springframework.stereotype.Service;
 public class RegisterBankAccountService implements RegisterBankAccountUseCase {
 
     private final RegisterBankAccountPort registerMemberAccountPort;
+    private final RequestBankAccountInfoPort requestBankAccountInfoPort;
     private final RegisteredBankAccountMapper registeredBankAccountMapper;
 
 
     @Override
     public RegisteredBankAccount registerBankAccount(RegisterBankAccountCommand command) {
-        boolean isAccountValid = true;
+        // 1. 외부 은행에 계좌등록 요청온 계좌가 정상인지 확인
+        BankAccountInfo bankAccountInfo = requestBankAccountInfoPort.getBankAccountInfo(command.getBankName(), command.getBankAccountNumber());
+        boolean isAccountValid = bankAccountInfo.isValid();
+
+        // 2. 정상이면 등록할 계좌를 등록
+        if (!isAccountValid) {
+            return null;
+        }
+
         RegisteredBankAccountJpaEntity jpaEntity = registerMemberAccountPort.createBankAccount(
                 new RegisteredBankAccount.MembershipId(command.getMembershipId()),
                 new RegisteredBankAccount.BankName(command.getBankName()),
