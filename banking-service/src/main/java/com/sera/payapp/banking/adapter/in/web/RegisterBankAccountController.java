@@ -19,7 +19,7 @@ public class RegisterBankAccountController {
 
     private final RegisterBankAccountUseCase registerBankAccountUseCase;
 
-    @PostMapping(value = "/membership/register")
+    @PostMapping(value = "/banking/account/register")
     ResponseEntity<RegisteredBankAccount> registerBankAccount(@RequestBody RegisterBankAccountRequest request) {
 
         RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
