@@ -7,6 +7,7 @@ import lombok.Value;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FirmbankingRequest {
+
     @Getter
     private final String fromBankName;
     @Getter
@@ -23,17 +24,17 @@ public class FirmbankingRequest {
     private final String firmbankingStatus; // TODO: enum 으로 리팩토링 할 것(0:요청, 1:완료, 2:실패)
 
     public static FirmbankingRequest generateFirmbankingRequest(
-            FromBankName fromBankName,
             FirmbankingRequestId firmbankingRequestId,
+            FromBankName fromBankName,
             FromBankAccountNumber fromBankAccountNumber,
             ToBankName toBankName,
             ToBankAccountNumber toBankAccountNumber,
             MoneyAmount moneyAmount,
             Firmbankingstatus firmbankingStatus) {
         return new FirmbankingRequest(
-                fromBankName.fromBankName,
                 firmbankingRequestId.firmbankingRequestId,
-                fromBankAccountNumber.bankBankAccountNumber,
+                fromBankName.fromBankName,
+                fromBankAccountNumber.fromBankAccountNumber,
                 toBankName.toBankName,
                 toBankAccountNumber.toBankAccountNumber,
                 moneyAmount.moneyAmount,
@@ -50,11 +51,11 @@ public class FirmbankingRequest {
     }
 
     @Value
-    public class FromBankAccountNumber {
-        String bankBankAccountNumber;
+    public static class FromBankAccountNumber {
+        String fromBankAccountNumber;
 
         public FromBankAccountNumber(String value) {
-            this.bankBankAccountNumber = value;
+            this.fromBankAccountNumber = value;
         }
     }
 
@@ -103,5 +104,16 @@ public class FirmbankingRequest {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "FirmbankingRequest{" +
+                "fromBankName='" + fromBankName + '\'' +
+                ", firmbankingRequestId='" + firmbankingRequestId + '\'' +
+                ", fromBankAccountNumber='" + fromBankAccountNumber + '\'' +
+                ", toBankName='" + toBankName + '\'' +
+                ", toBankAccountNumber='" + toBankAccountNumber + '\'' +
+                ", moneyAmount=" + moneyAmount +
+                ", firmbankingStatus='" + firmbankingStatus + '\'' +
+                '}';
+    }
 }
