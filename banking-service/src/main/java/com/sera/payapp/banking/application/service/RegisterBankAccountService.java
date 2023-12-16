@@ -24,6 +24,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
 
     @Override
     public RegisteredBankAccount registerBankAccount(RegisterBankAccountCommand command) {
+        // TODO: 멤버쉽Id 가 정상인지 확인(to Membership Service)
         // 1. 외부 은행에 계좌등록 요청온 계좌가 정상인지 확인
         BankAccountInfo bankAccountInfo = requestBankAccountInfoPort.getBankAccountInfo(command.getBankName(), command.getBankAccountNumber());
         boolean isAccountValid = bankAccountInfo.isValid();
