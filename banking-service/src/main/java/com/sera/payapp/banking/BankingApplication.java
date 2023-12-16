@@ -1,13 +1,13 @@
-package com.sera.payapp.bank;
+package com.sera.payapp.banking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BankApplication {
+public class BankingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BankApplication.class, args);
+        SpringApplication.run(BankingApplication.class, args);
     }
 
 }
