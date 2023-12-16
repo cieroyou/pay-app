@@ -20,7 +20,7 @@ public class FirmbankingRequest {
     @Getter
     private final int moneyAmount;
     @Getter
-    private final String firmbankingstatus; // TODO: enum 으로 리팩토링 할 것(0:요청, 1:완료, 2:실패)
+    private final String firmbankingStatus; // TODO: enum 으로 리팩토링 할 것(0:요청, 1:완료, 2:실패)
 
     public static FirmbankingRequest generateFirmbankingRequest(
             FromBankName fromBankName,
@@ -29,7 +29,7 @@ public class FirmbankingRequest {
             ToBankName toBankName,
             ToBankAccountNumber toBankAccountNumber,
             MoneyAmount moneyAmount,
-            Firmbankingstatus firmbankingstatus) {
+            Firmbankingstatus firmbankingStatus) {
         return new FirmbankingRequest(
                 fromBankName.fromBankName,
                 firmbankingRequestId.firmbankingRequestId,
@@ -37,7 +37,7 @@ public class FirmbankingRequest {
                 toBankName.toBankName,
                 toBankAccountNumber.toBankAccountNumber,
                 moneyAmount.moneyAmount,
-                firmbankingstatus.firmbankingstatus);
+                firmbankingStatus.firmbankingStatus);
     }
 
     @Value
@@ -96,10 +96,10 @@ public class FirmbankingRequest {
 
     @Value
     public static class Firmbankingstatus {
-        String firmbankingstatus;
+        String firmbankingStatus;
 
         public Firmbankingstatus(String value) {
-            this.firmbankingstatus = value;
+            this.firmbankingStatus = value;
         }
     }
 
