@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Value;
 
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegisteredBankAccount {
-    @Getter
     private final String registeredBankAccountId;
     private final String membershipId;
     // TODO: enum 으로 리팩토링 할 것
