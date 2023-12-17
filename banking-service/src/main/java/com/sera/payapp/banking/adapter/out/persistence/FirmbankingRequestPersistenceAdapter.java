@@ -5,6 +5,8 @@ import com.sera.payapp.banking.domain.FirmbankingRequest;
 import com.sera.payapp.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class FirmbankingRequestPersistenceAdapter implements RequestFirmbankingPort {
@@ -25,6 +27,12 @@ public class FirmbankingRequestPersistenceAdapter implements RequestFirmbankingP
                 toBankName.getToBankName(),
                 toBankAccountNumber.getToBankAccountNumber(),
                 moneyAmount.getMoneyAmount(),
-                firmbankingStatus.getFirmbankingStatus()));
+                firmbankingStatus.getFirmbankingStatus(),
+                UUID.randomUUID()));
+    }
+
+    @Override
+    public FirmbankingRequestJpaEntity modifyFirmbankingRequest(FirmbankingRequestJpaEntity firmbankingRequestJpaEntity) {
+        return firmbankingRequestRepository.save(firmbankingRequestJpaEntity);
     }
 }

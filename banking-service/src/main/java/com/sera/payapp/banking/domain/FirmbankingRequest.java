@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Value;
 
+import java.util.UUID;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FirmbankingRequest {
 
@@ -21,7 +23,9 @@ public class FirmbankingRequest {
     @Getter
     private final int moneyAmount;
     @Getter
-    private final String firmbankingStatus; // TODO: enum 으로 리팩토링 할 것(0:요청, 1:완료, 2:실패)
+    private final int firmbankingStatus; // TODO: enum 으로 리팩토링 할 것(0:요청, 1:완료, 2:실패)
+    @Getter
+    private final UUID uuid;
 
     public static FirmbankingRequest generateFirmbankingRequest(
             FirmbankingRequestId firmbankingRequestId,
@@ -30,7 +34,8 @@ public class FirmbankingRequest {
             ToBankName toBankName,
             ToBankAccountNumber toBankAccountNumber,
             MoneyAmount moneyAmount,
-            Firmbankingstatus firmbankingStatus) {
+            Firmbankingstatus firmbankingStatus,
+            UUID uuid) {
         return new FirmbankingRequest(
                 firmbankingRequestId.firmbankingRequestId,
                 fromBankName.fromBankName,
@@ -38,7 +43,8 @@ public class FirmbankingRequest {
                 toBankName.toBankName,
                 toBankAccountNumber.toBankAccountNumber,
                 moneyAmount.moneyAmount,
-                firmbankingStatus.firmbankingStatus);
+                firmbankingStatus.firmbankingStatus,
+                uuid);
     }
 
     @Value
@@ -97,9 +103,9 @@ public class FirmbankingRequest {
 
     @Value
     public static class Firmbankingstatus {
-        String firmbankingStatus;
+        int firmbankingStatus;
 
-        public Firmbankingstatus(String value) {
+        public Firmbankingstatus(int value) {
             this.firmbankingStatus = value;
         }
     }

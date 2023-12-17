@@ -13,7 +13,7 @@ public class RequestFirmbankingCommand extends SelfValidating<RequestFirmbanking
     @NotNull
     private final String fromBankName;
     @NotNull
-    private final String bankBankAccountNumber;
+    private final String fromBankAccountNumber;
     @NotNull
     private final String toBankName;
     @NotNull
@@ -23,7 +23,7 @@ public class RequestFirmbankingCommand extends SelfValidating<RequestFirmbanking
     @Builder
     public RequestFirmbankingCommand(String fromBankName, String bankBankAccountNumber, String toBankName, String toBankAccountNumber, int moneyAmount) {
         this.fromBankName = fromBankName;
-        this.bankBankAccountNumber = bankBankAccountNumber;
+        this.fromBankAccountNumber = bankBankAccountNumber;
         this.toBankName = toBankName;
         this.toBankAccountNumber = toBankAccountNumber;
         this.moneyAmount = moneyAmount;

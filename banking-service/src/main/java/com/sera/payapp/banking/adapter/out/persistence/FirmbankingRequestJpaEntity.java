@@ -7,12 +7,16 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "request_firmbanking")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class FirmbankingRequestJpaEntity {
 
     @Id
@@ -23,14 +27,16 @@ public class FirmbankingRequestJpaEntity {
     private String toBankName;
     private String toBankBankAccountNumber;
     private int moneyAmount;
-    private String firmbankingStatus;
+    private int firmbankingStatus;
+    private UUID uuid;
 
-    public FirmbankingRequestJpaEntity(String fromBankName, String fromBankBankAccountNumber, String toBankName, String toBankBankAccountNumber, int moneyAmount, String firmbankingStatus) {
+    public FirmbankingRequestJpaEntity(String fromBankName, String fromBankBankAccountNumber, String toBankName, String toBankBankAccountNumber, int moneyAmount, int firmbankingStatus, UUID uuid) {
         this.fromBankName = fromBankName;
         this.fromBankBankAccountNumber = fromBankBankAccountNumber;
         this.toBankName = toBankName;
         this.toBankBankAccountNumber = toBankBankAccountNumber;
         this.moneyAmount = moneyAmount;
         this.firmbankingStatus = firmbankingStatus;
+        this.uuid = uuid;
     }
 }
