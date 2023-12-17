@@ -1,4 +1,4 @@
-package com.sera.payapp.banking.adapter.out.persistence;
+package com.sera.payapp.banking.adapter.out.persistence.registered_bank_account;
 
 import com.sera.payapp.banking.domain.RegisteredBankAccount;
 import org.springframework.stereotype.Component;

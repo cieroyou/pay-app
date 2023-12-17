@@ -1,4 +1,4 @@
-package com.sera.payapp.banking.adapter.out.persistence;
+package com.sera.payapp.banking.adapter.out.persistence.registered_bank_account;
 
 import com.sera.payapp.banking.application.port.out.RegisterBankAccountPort;
 import com.sera.payapp.banking.domain.RegisteredBankAccount;
@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MembershipPersistenceAdapter implements RegisterBankAccountPort {
-    private final SpringDataRegisteredBanckAccountRepository registeredBanckAccountRepository;
+public class RegisteredBankAccountPersistenceAdapter implements RegisterBankAccountPort {
+    private final SpringDataRegisteredBanckAccountRepository registeredBankAccountRepository;
 
     @Override
     public RegisteredBankAccountJpaEntity createBankAccount(
@@ -16,7 +16,7 @@ public class MembershipPersistenceAdapter implements RegisterBankAccountPort {
             RegisteredBankAccount.BankName bankName,
             RegisteredBankAccount.BankAccountNumber bankAccountNumber,
             RegisteredBankAccount.LinkedStatusIsValid linkedStatusIsValid) {
-        return registeredBanckAccountRepository.save(new RegisteredBankAccountJpaEntity(
+        return registeredBankAccountRepository.save(new RegisteredBankAccountJpaEntity(
                 membershipId.getMembershipId(),
                 bankName.getBankName(),
                 bankAccountNumber.getBankAccountNumber(),

@@ -1,8 +1,8 @@
 package com.sera.payapp.banking.application.service;
 
 import com.sera.payapp.banking.adapter.out.external.bank.BankAccountInfo;
-import com.sera.payapp.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
-import com.sera.payapp.banking.adapter.out.persistence.RegisteredBankAccountMapper;
+import com.sera.payapp.banking.adapter.out.persistence.registered_bank_account.RegisteredBankAccountJpaEntity;
+import com.sera.payapp.banking.adapter.out.persistence.registered_bank_account.RegisteredBankAccountMapper;
 import com.sera.payapp.banking.application.port.in.RegisterBankAccountCommand;
 import com.sera.payapp.banking.application.port.in.RegisterBankAccountUseCase;
 import com.sera.payapp.banking.application.port.out.RegisterBankAccountPort;

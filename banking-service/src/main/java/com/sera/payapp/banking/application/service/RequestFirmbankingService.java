@@ -2,8 +2,8 @@ package com.sera.payapp.banking.application.service;
 
 import com.sera.payapp.banking.adapter.out.external.bank.ExternalFirmbankingRequest;
 import com.sera.payapp.banking.adapter.out.external.bank.FirmbankingResult;
-import com.sera.payapp.banking.adapter.out.persistence.FirmbankingRequestJpaEntity;
-import com.sera.payapp.banking.adapter.out.persistence.FirmbankingRequestMapper;
+import com.sera.payapp.banking.adapter.out.persistence.firmbanking_request.FirmbankingRequestJpaEntity;
+import com.sera.payapp.banking.adapter.out.persistence.firmbanking_request.FirmbankingRequestMapper;
 import com.sera.payapp.banking.application.port.in.RequestFirmbankingCommand;
 import com.sera.payapp.banking.application.port.in.RequestFirmbankingUseCase;
 import com.sera.payapp.banking.application.port.out.RequestExternalFirmbankingPort;

@@ -1,6 +1,6 @@
 package com.sera.payapp.banking.application.port.out;
 
-import com.sera.payapp.banking.adapter.out.persistence.FirmbankingRequestJpaEntity;
+import com.sera.payapp.banking.adapter.out.persistence.firmbanking_request.FirmbankingRequestJpaEntity;
 import com.sera.payapp.banking.domain.FirmbankingRequest;
 
 public interface RequestFirmbankingPort {

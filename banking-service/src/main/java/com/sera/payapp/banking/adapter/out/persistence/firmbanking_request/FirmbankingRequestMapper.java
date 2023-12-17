@@ -1,4 +1,4 @@
-package com.sera.payapp.banking.adapter.out.persistence;
+package com.sera.payapp.banking.adapter.out.persistence.firmbanking_request;
 
 import com.sera.payapp.banking.domain.FirmbankingRequest;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.sera.payapp.banking.adapter.out.persistence;
+package com.sera.payapp.banking.adapter.out.persistence.registered_bank_account;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
