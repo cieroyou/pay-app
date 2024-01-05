@@ -1,0 +1,83 @@
+version: "3.7"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
+      - ZOOKEEPER_SERVER_ID=1
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+      - ZOOKEEPER_INIT_LIMIT=5
+      - ZOOKEEPER_SYNC_LIMIT=2
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LOG_DIRS: /kafka
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka/logs:/kafka
+
+#version: '3.8'
+#services:
+#  zookeeper:
+#    image: wurstmeister/zookeeper
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
+#      - ZOOKEEPER_SERVER_ID=1
+#      - ZOOKEEPER_CLIENT_PORT=2181
+#      - ZOOKEEPER_TICK_TIME=2000
+#      - ZOOKEEPER_INIT_LIMIT=5
+#      - ZOOKEEPER_SYNC_LIMIT=2
+#    networks:
+#        - serapay_network
+#  kafka:
+#    image: wurstmeister/kafka:latest
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#      - "29092:29092"
+#    environment:
+#      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_LOG_DIRS: /kafka
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+#      KAFKA_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+#    volumes:
+#      - ./kafka/logs:/kafka
+#    networks:
+#      - serapay_network
+#
+#  kafka-ui:
+#    image: provectuslabs/kafka-ui
+#    container_name: kafka-ui
+#    networks:
+#      - serapay_network
+#    ports:
+#      - "8989:8080"
+#    restart: always
+#    depends_on:
+#      - kafka
+#      - zookeeper
+#    environment:
+#      - KAFKA_CLUSTERS_0_NAME=local
+#      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+#      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+#networks:
+#  serapay_network:
+#    driver: bridge

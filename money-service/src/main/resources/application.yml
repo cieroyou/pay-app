@@ -1,0 +1,4 @@
+kafka:
+  clusters:
+    bootstrapservers: localhost:9092
+logging.topic: sera.payapp.logging.out.stdout
