@@ -2,6 +2,7 @@ package com.sera.payapp.membership.adapter.in.web;
 
 
 import com.sera.payapp.common.WebAdapter;
+import com.sera.payapp.membership.adapter.in.web.dto.GetMembershipResponse;
 import com.sera.payapp.membership.application.port.in.GetMembershipQuery;
 import com.sera.payapp.membership.application.port.in.GetMembershipUseCase;
 import com.sera.payapp.membership.domain.Membership;
@@ -20,9 +21,9 @@ public class GetMembershipController {
     private final GetMembershipUseCase getMembershipUseCase;
 
     @GetMapping(value = "/membership/{membershipId}")
-    ResponseEntity<Membership> getMembership(@Schema(description = "Membership ID", example = "1")
+    ResponseEntity<GetMembershipResponse> getMembership(@Schema(description = "Membership ID", example = "1")
                                              @PathVariable(name = "membershipId") String membershipId) {
-        GetMembershipQuery query = new GetMembershipQuery(membershipId);
-        return ResponseEntity.ok(getMembershipUseCase.getMembership(query));
+        Membership membership= getMembershipUseCase.getMembership(new GetMembershipQuery(membershipId));
+        return ResponseEntity.ok(new GetMembershipResponse(membership));
     }
 }

@@ -2,7 +2,7 @@ version: "3.7"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
-    container_name: zookeeper
+    container_name: pay-app-zookeeper
     ports:
       - "2181:2181"
     environment:
@@ -14,7 +14,7 @@ services:
       - ZOOKEEPER_SYNC_LIMIT=2
   kafka:
     image: wurstmeister/kafka:latest
-    container_name: kafka
+    container_name: pah-app-kafka
     ports:
       - "9092:9092"
     environment:
