@@ -27,6 +27,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
 
     @Override
     public RegisteredBankAccount registerBankAccount(RegisterBankAccountCommand command) {
+        // 1. 멤버쉽 상태 확인(멤버쉽 서비스에 GET 멤버쉽 정보 API 요청)
         MembershipStatus membershipStatus = getMembershipPort.getMembershipStatus(command.getMembershipId());
         if (!membershipStatus.isValid()) {
             // TODO: 에러 정의 필요, null 대신 에러 Response 보내도록 처리

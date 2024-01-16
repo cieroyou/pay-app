@@ -1,9 +1,6 @@
 package com.sera.payapp.membership.adapter.in.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sera.payapp.membership.domain.Membership;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
 import lombok.Getter;
 
 @Getter
@@ -12,14 +9,8 @@ public class GetMembershipResponse {
     private final String name;
     private final String email;
     private final String address;
-    @Schema(name = "isValid")
-    @JsonProperty(value = "isValid")
-    @Getter(AccessLevel.NONE)
-    private final boolean isValid;
-    @Schema(name = "isCorp")
-    @Getter(AccessLevel.NONE)
-    @JsonProperty(value = "isCorp")
-    private final boolean isCorp;
+    private final Boolean isValid;
+    private final Boolean isCorp;
 
     public GetMembershipResponse(Membership membership) {
         this.membershipId = membership.getMembershipId();
