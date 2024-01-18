@@ -2,6 +2,9 @@ kafka:
   clusters:
     bootstrapservers: localhost:9092
 logging.topic: sera.payapp.logging.out.stdout
-
+task.topic: sera.task.topic
+service:
+  membership:
+    url: http://localhost:8081
 server:
   port: 8082
