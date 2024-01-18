@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MemberMoneyAdatper implements IncreaseMoneyPort {
+public class MemberMoneyAdapter implements IncreaseMoneyPort {
     private final SpringDataMemberMoneyRepository memberMoneyRepository;
 
 
@@ -18,7 +18,7 @@ public class MemberMoneyAdatper implements IncreaseMoneyPort {
     public MemberMoneyJpaEntity increaseMoney(MemberMoney.MembershipId membershipId, int increaseMoneyAmount) {
         Optional<MemberMoneyJpaEntity> entity = memberMoneyRepository.findByMembershipId(Long.valueOf(membershipId.getMembershipId()));
         if (entity.isEmpty()) {
-            return memberMoneyRepository.save(new MemberMoneyJpaEntity(membershipId.getMembershipId(), increaseMoneyAmount));
+            return memberMoneyRepository.save(new MemberMoneyJpaEntity(Long.valueOf(membershipId.getMembershipId()), increaseMoneyAmount));
         }
 
         MemberMoneyJpaEntity memberMoneyJpaEntity = entity.get();

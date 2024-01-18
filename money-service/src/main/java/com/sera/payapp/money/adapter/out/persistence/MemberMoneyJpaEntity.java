@@ -1,6 +1,8 @@
 package com.sera.payapp.money.adapter.out.persistence;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +16,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberMoneyJpaEntity {
+    @Id
+    @GeneratedValue
     private Long memberMoneyId;
-    private String membershipId;
+
+    private Long membershipId;
     private int balance;
 
-    public MemberMoneyJpaEntity(String membershipId, int balance) {
+    public MemberMoneyJpaEntity(Long membershipId, int balance) {
         this.membershipId = membershipId;
         this.balance = balance;
     }
