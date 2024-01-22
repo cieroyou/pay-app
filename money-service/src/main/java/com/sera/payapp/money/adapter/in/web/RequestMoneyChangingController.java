@@ -8,6 +8,7 @@ import com.sera.payapp.money.application.port.in.IncreaseMoneyUseCase;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,6 +21,7 @@ public class RequestMoneyChangingController {
 
     private final IncreaseMoneyUseCase increaseMoneyUseCase;
 
+    @PostMapping(path = "/money/increase")
     MoneyChangingResultDetail increaseMoneyRequest(@Valid IncreaseMoneyRequest request) {
         MoneyChangingRequest moneyChangingRequest = increaseMoneyUseCase.increaseMoney(new IncreaseMoneyCommand(
                 request.getTargetMembershipId(),
