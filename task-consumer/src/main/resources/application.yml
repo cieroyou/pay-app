@@ -1,0 +1,7 @@
+kafka:
+  clusters:
+    bootstrapservers: localhost:9092
+task.topic: sera.task.topic
+task.result.topic: sera.task.result.topic
+server:
+  port: 8011
