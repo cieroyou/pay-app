@@ -3,13 +3,15 @@ package com.sera.payapp.money.adapter.in.web.dto;
 import com.sera.payapp.money.domain.ChangingMoneyType;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class MoneyChangingResultDetail {
     private String moneyChangingRequestId;
-    private ChangingMoneyType moneyChaningType; // 0: 증액, 1: 감액
+    private ChangingMoneyType moneyChangingType; // 0: 증액, 1: 감액
     private MoneyChangingResultStatus moneyChangingResultStatus;
     private int amount;
 
