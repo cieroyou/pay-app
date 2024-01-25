@@ -19,6 +19,7 @@ public class TaskResultProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
+    // task.status 가 ready 이면 안됨. status 는 success, fail 만 가능
     public void sendTaskResult(RechargingMoneyTask task) {
         String jsonStringToProduce;
         try {

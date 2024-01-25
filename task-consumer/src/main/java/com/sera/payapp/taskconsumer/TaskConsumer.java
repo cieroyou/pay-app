@@ -12,6 +12,10 @@ import org.springframework.kafka.listener.MessageListener;
 
 import java.util.List;
 
+/**
+ * 발행된 RechargingMoneyTask 메세지를 받아서 처리하는 Consumer
+ * 태스트에 해당하는 작업(internal Request) 를 수행 후 받은 작업을 완료했다는 메세지(set task.status) 를 발행한다.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class TaskConsumer
