@@ -19,7 +19,7 @@ public class TaskResultProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    public void sendMessage(String key, RechargingMoneyTask task) {
+    public void sendTaskResult(RechargingMoneyTask task) {
         String jsonStringToProduce;
         try {
             jsonStringToProduce = objectMapper.writeValueAsString(task);
@@ -28,6 +28,7 @@ public class TaskResultProducer {
             throw new RuntimeException(e);
         }
 
+        String key = task.getTaskId();
         kafkaTemplate.send(topic, key, jsonStringToProduce).whenComplete((result, ex) -> {
             if (ex != null) {
                 log.error("Error sending message: " + ex.getMessage());

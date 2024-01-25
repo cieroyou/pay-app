@@ -52,7 +52,7 @@ public class TaskConsumer
             subTask.setStatus("success");
         }
         if (taskResult) {
-            this.taskResultProducer.sendMessage(task.getTaskId(), task);
+            this.taskResultProducer.sendTaskResult(task);
         }
     }
 }
