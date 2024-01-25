@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MoneyChangingResultDetail {
     private String moneyChangingRequestId;
-    private ChangingMoneyType moneyChaningType; // 0: 증액, 1: 감액
+    private ChangingMoneyType moneyChangingType; // 0: 증액, 1: 감액
     private MoneyChangingResultStatus moneyChangingResultStatus;
     private int amount;
 
