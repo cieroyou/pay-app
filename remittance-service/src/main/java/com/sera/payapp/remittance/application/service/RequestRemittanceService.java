@@ -5,7 +5,9 @@ import com.sera.payapp.remittance.application.port.in.RequestRemittanceUseCase;
 import com.sera.payapp.remittance.application.port.in.dto.RequestRemittanceCommand;
 import com.sera.payapp.remittance.application.port.in.dto.RequestRemittanceInfo;
 import com.sera.payapp.remittance.application.port.out.MembershipPort;
+import com.sera.payapp.remittance.application.port.out.MoneyPort;
 import com.sera.payapp.remittance.application.port.out.dto.MembershipStatus;
+import com.sera.payapp.remittance.application.port.out.dto.MoneyInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,15 @@ import org.springframework.stereotype.Service;
 public class RequestRemittanceService implements RequestRemittanceUseCase {
     private final MembershipPort membershipPort;
 
+    private final MoneyPort moneyPort;
+
     @Override
     public RequestRemittanceInfo requestRemittance(RequestRemittanceCommand command) {
         // 0. 송금 요청 상태를 시작 상태로 기록
         // 1. 고객 정보가 정상인지 확인(to membership-service)
         MembershipStatus membershipStatus = membershipPort.getMembershipStatus(command.getFromMembershipId());
         // 2. 잔액 확인(to money-service)
+        MoneyInfo moneyInfo = moneyPort.getMoneyInfo(command.getFromMembershipId());
         // 2-1. 잔액이 충분하지 않은 경우, 충전 요청(to money-service)
         // 3. 송급타입 확인(고객/은행)
         // 3-1. 고객인 경우, from 고객 머니 감액, to 고객머니 증액(to banking-service)
