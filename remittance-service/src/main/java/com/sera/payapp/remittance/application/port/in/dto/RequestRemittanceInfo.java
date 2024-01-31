@@ -1,5 +1,6 @@
 package com.sera.payapp.remittance.application.port.in.dto;
 
+import com.sera.payapp.remittance.domain.RemittanceRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,16 @@ public class RequestRemittanceInfo {
     // 송금요청 금액
     private String remittanceStatus; //TODO enum으로 변경
     private int amount;
+
+    public static RequestRemittanceInfo fromEntity(RemittanceRequest remittanceRequest) {
+        return RequestRemittanceInfo.builder()
+                .remittanceRequestId(remittanceRequest.getRemittanceRequestId())
+                .remittanceFromMembershipId(remittanceRequest.getRemittanceFromMembershipId())
+                .toBankName(remittanceRequest.getToBankName())
+                .toBankAccountNumber(remittanceRequest.getToBankAccountNumber())
+                .remittanceType(remittanceRequest.getRemittanceType())
+                .remittanceStatus(remittanceRequest.getRemittanceStatus())
+                .amount(remittanceRequest.getAmount())
+                .build();
+    }
 }

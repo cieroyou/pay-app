@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -21,7 +23,7 @@ public class MoneyServiceAdapter implements MoneyPort {
     @Override
     public MoneyInfo getMoneyInfo(String membershipId) {
         // TODO 잔액 조회 api 생성
-        return null;
+        return new MoneyInfo(membershipId, new Random().nextInt(1000000));
     }
 
     @Override

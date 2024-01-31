@@ -23,4 +23,9 @@ public class BankingServiceAdapter implements BankingPort {
         // TODO 뱅킹 정보 가져오기 구현
         return null;
     }
+
+    @Override
+    public boolean requestFirmbanking(String toBankName, String toBankAccountNumber) {
+        return true;
+    }
 }
