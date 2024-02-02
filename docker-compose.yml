@@ -35,6 +35,9 @@ services:
       - ./axonserver/data:/axonserver/data
       - ./axonserver/events:/axonserver/events
       - ./axonserver/config:/axonserver/config:ro
+    environment:
+      AXONIO_AXONSERVER_STANDALONE: true
+      AXONIQ_AXONSERVER_DEVMODE_ENABLED: true
 
 
 #version: '3.8'
