@@ -9,3 +9,9 @@ service:
     url: http://localhost:8081
 server:
   port: 8082
+
+axon:
+  serializer:
+    general: xstream
+  axonserver:
+    servers: localhost:8124
