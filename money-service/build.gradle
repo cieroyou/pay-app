@@ -32,12 +32,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-//    implementation 'org.axonframework:axon-configuration:4.9.1'
     implementation 'org.axonframework:axon-spring-boot-starter:4.9.1'
-//    implementation 'org.axonframework:axon-micrometer:4.7.3'
-//    implementation 'org.axonframework.extensions.spring-aot:axon-spring-aot'
-//    implementation group: 'org.axonframework', name: 'axon-configuration', version: "4.6.3"
-//    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "4.6.3"
 }
 
 tasks.named('test') {
