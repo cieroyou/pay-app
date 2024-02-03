@@ -4,6 +4,13 @@ kafka:
 logging.topic: sera.payapp.logging.out.stdout
 task.topic: sera.task.topic
 task.result.topic: sera.task.result.topic
+axon:
+  axonserver:
+    servers: axon-server*:8124
+  serializer:
+    events: jackson
+    messages: jackson
+    general: xstream
 service:
   membership:
     url: http://localhost:8081

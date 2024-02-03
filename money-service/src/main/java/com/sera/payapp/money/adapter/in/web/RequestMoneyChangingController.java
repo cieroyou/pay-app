@@ -1,8 +1,10 @@
 package com.sera.payapp.money.adapter.in.web;
 
 import com.sera.payapp.common.WebAdapter;
+import com.sera.payapp.money.adapter.in.web.dto.CreateMemberMoneyCommand;
 import com.sera.payapp.money.adapter.in.web.dto.IncreaseMoneyRequest;
 import com.sera.payapp.money.adapter.in.web.dto.MoneyChangingResultDetail;
+import com.sera.payapp.money.application.port.in.CreateMemberMoneyUseCase;
 import com.sera.payapp.money.application.port.in.IncreaseMoneyCommand;
 import com.sera.payapp.money.application.port.in.IncreaseMoneyUseCase;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestMoneyChangingController {
 
     private final IncreaseMoneyUseCase increaseMoneyUseCase;
+    private final CreateMemberMoneyUseCase createMemberMoneyUseCase;
 
     @PostMapping(path = "/money/increase")
     ResponseEntity<MoneyChangingResultDetail> increaseMoneyRequest(@Valid @RequestBody IncreaseMoneyRequest request) {
@@ -31,6 +34,16 @@ public class RequestMoneyChangingController {
         ));
         var result = MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest);
         return ResponseEntity.ok(MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest));
+    }
+
+
+    /**
+     * Member Money 생성 요청
+     * @param request
+     */
+    @PostMapping(path = "/money/create-member-money")
+    public void decreaseMoneyRequest(@Valid @RequestBody IncreaseMoneyRequest request) {
+        createMemberMoneyUseCase.createMemberMoney(new CreateMemberMoneyCommand(request.getTargetMembershipId()));
     }
 
 }

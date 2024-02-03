@@ -17,6 +17,7 @@ import com.sera.payapp.money.domain.ChangingMoneyType;
 import com.sera.payapp.money.domain.MemberMoney;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

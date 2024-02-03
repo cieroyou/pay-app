@@ -2,7 +2,13 @@ kafka:
   clusters:
     bootstrapservers: localhost:9092
 logging.topic: sera.payapp.logging.out.stdout
-
+axon:
+  axonserver:
+    servers: axon-server:8124
+  serializer:
+    events: jackson
+    messages: jackson
+    general: xstream
 server:
   port: 8080
 service:
