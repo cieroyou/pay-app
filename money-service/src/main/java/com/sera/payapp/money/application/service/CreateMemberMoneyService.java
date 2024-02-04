@@ -4,6 +4,8 @@ import com.sera.payapp.common.UseCase;
 import com.sera.payapp.money.adapter.axon.command.MemberMoneyCreatedCommand;
 import com.sera.payapp.money.application.port.in.CreateMemberMoneyCommand;
 import com.sera.payapp.money.application.port.in.CreateMemberMoneyUseCase;
+import com.sera.payapp.money.application.port.out.CreateMemberMoneyPort;
+import com.sera.payapp.money.domain.MemberMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -13,6 +15,7 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 @Slf4j
 public class CreateMemberMoneyService implements CreateMemberMoneyUseCase {
     private final CommandGateway commandGateway;
+    private final CreateMemberMoneyPort createMemberMoneyPort;
 
     @Override
     public void createMemberMoney(CreateMemberMoneyCommand createMemberMoneyCommand) {
@@ -28,6 +31,10 @@ public class CreateMemberMoneyService implements CreateMemberMoneyUseCase {
             } else {
                 // 정상 처리
                 log.info("CreateMemberMoneyService.createMemberMoney() success, result: {}", result);
+                createMemberMoneyPort.createMemberMoney(
+                        new MemberMoney.MembershipId(createMemberMoneyCommand.getTargetMembershipId()),
+                        new MemberMoney.MoneyAggregateIdentifier(result.toString())
+                );
             }
         });
     }
