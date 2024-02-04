@@ -18,7 +18,8 @@ public class MemberMoneyAdapter implements IncreaseMoneyPort {
     public MemberMoneyJpaEntity increaseMoney(MemberMoney.MembershipId membershipId, int increaseMoneyAmount) {
         Optional<MemberMoneyJpaEntity> entity = memberMoneyRepository.findByMembershipId(Long.valueOf(membershipId.getMembershipId()));
         if (entity.isEmpty()) {
-            return memberMoneyRepository.save(new MemberMoneyJpaEntity(Long.valueOf(membershipId.getMembershipId()), increaseMoneyAmount));
+            return memberMoneyRepository.save(
+                    new MemberMoneyJpaEntity(Long.valueOf(membershipId.getMembershipId()), increaseMoneyAmount, null));
         }
 
         MemberMoneyJpaEntity memberMoneyJpaEntity = entity.get();

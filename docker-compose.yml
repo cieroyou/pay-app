@@ -25,7 +25,19 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - ./kafka/logs:/kafka
-
+  axon-server:
+    container_name: axon-server
+    image: axoniq/axonserver:latest
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+    volumes:
+      - ./axonserver/data:/axonserver/data
+      - ./axonserver/events:/axonserver/events
+      - ./axonserver/config:/axonserver/config:ro
+    environment:
+      AXONIO_AXONSERVER_STANDALONE: true
+      AXONIQ_AXONSERVER_DEVMODE_ENABLED: true
 #version: '3.8'
 #services:
 #  zookeeper:

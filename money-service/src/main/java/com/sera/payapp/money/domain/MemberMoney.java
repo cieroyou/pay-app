@@ -38,6 +38,7 @@ public class MemberMoney {
         }
     }
 
+
     @Value
     public static class MembershipId {
         String membershipId;
@@ -54,5 +55,14 @@ public class MemberMoney {
         public Balance(int value) {
             this.balance = value;
         }
+    }
+
+    @Value
+    public static class MoneyAggregateIdentifier {
+        public MoneyAggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
+        }
+
+        String aggregateIdentifier;
     }
 }
