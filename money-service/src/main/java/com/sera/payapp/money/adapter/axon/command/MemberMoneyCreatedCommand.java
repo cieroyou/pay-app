@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * 디폴트생성자가 있어야 함.
  */
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor // Required by Axon to construct an empty instance to initiate Event Sourcing.
 public class MemberMoneyCreatedCommand
         extends SelfValidating<MemberMoneyCreatedCommand> {
     @NotNull

@@ -29,8 +29,9 @@ public class RequestMoneyChangingController {
                 request.getTargetMembershipId(),
                 request.getAmount()
         ));
-        var result = MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest);
-        return ResponseEntity.ok(MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest));
+//        var result = MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest);
+//        return ResponseEntity.ok(MoneyChangingResultDetail.fromMoneyChangingRequest(moneyChangingRequest));
+        return ResponseEntity.ok(null);
     }
 
 }
