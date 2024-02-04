@@ -2,7 +2,9 @@ package com.sera.payapp.money.application.port.in;
 
 import com.sera.payapp.common.SelfValidating;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
+@Getter
 public class CreateMemberMoneyCommand extends SelfValidating<CreateMemberMoneyCommand> {
 
     @NotBlank
