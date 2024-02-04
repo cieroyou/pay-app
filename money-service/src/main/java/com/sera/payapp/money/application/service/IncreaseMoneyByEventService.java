@@ -9,12 +9,16 @@ import com.sera.payapp.money.application.port.in.IncreaseMoneyUseCase;
 import com.sera.payapp.money.application.port.out.GetMemberMoneyPort;
 import com.sera.payapp.money.application.port.out.IncreaseMoneyChangingRequestPort;
 import com.sera.payapp.money.application.port.out.IncreaseMoneyPort;
+import com.sera.payapp.money.domain.ChangingMoneyStatus;
+import com.sera.payapp.money.domain.ChangingMoneyType;
 import com.sera.payapp.money.domain.MemberMoney;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.context.annotation.Primary;
+
+import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
@@ -47,16 +51,17 @@ public class IncreaseMoneyByEventService implements IncreaseMoneyUseCase {
                         MemberMoneyJpaEntity memberMoney =
                                 increaseMoneyPort.increaseMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()), command.getAmount());
 
-//                        if (memberMoney != null) {
-//                            // MemberMoney 를 성공적으로 증액한 경우
-//                            moneyChangingRequestMapper.mapToDomainEntity(increaseMoneyChangingRequestPort.increaseMoney(
-//                                    new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
-//                                    new MoneyChangingRequest.MoneyChangingType(ChangingMoneyType.INCREASING),
-//                                    new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
-//                                    new MoneyChangingRequest.LinkedStatusIsValid(true),
-//                                    new MoneyChangingRequest.MoneyChangingStatus(ChangingMoneyStatus.SUCCESS),
-//                                    new MoneyChangingRequest.Uuid(UUID.randomUUID())));
-//                        }
+                        if (memberMoney != null) {
+                            // MemberMoney 를 성공적으로 증액한 경우
+                            moneyChangingRequestMapper.mapToDomainEntity(increaseMoneyChangingRequestPort.increaseMoney(
+                                    new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
+                                    new MoneyChangingRequest.MoneyChangingType(ChangingMoneyType.INCREASING),
+                                    new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
+                                    new MoneyChangingRequest.LinkedStatusIsValid(true),
+                                    new MoneyChangingRequest.MoneyChangingStatus(ChangingMoneyStatus.SUCCESS),
+                                    new MoneyChangingRequest.Uuid(UUID.randomUUID())));
+                        }
+                        log.info("IncreaseMoneyByEventService.increaseMoney() success, memberMoney: {}", memberMoney);
                     }
                 });
         return null;
