@@ -119,7 +119,17 @@ public class FirmbankingRequest {
                 ", toBankName='" + toBankName + '\'' +
                 ", toBankAccountNumber='" + toBankAccountNumber + '\'' +
                 ", moneyAmount=" + moneyAmount +
-                ", firmbankingStatus='" + firmbankingStatus + '\'' +
+                ", firmbankingStatus=" + firmbankingStatus +
+                ", uuid=" + uuid +
                 '}';
+    }
+
+    @Value
+    public static class FirmbankingAggregateIdentifier {
+        public FirmbankingAggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
+        }
+
+        String aggregateIdentifier;
     }
 }

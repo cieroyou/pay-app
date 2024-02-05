@@ -36,7 +36,8 @@ public class RequestFirmbankingService implements RequestFirmbankingUseCase {
                 new FirmbankingRequest.ToBankName(command.getToBankName()),
                 new FirmbankingRequest.ToBankAccountNumber(command.getToBankAccountNumber()),
                 new FirmbankingRequest.MoneyAmount(command.getMoneyAmount()),
-                new FirmbankingRequest.Firmbankingstatus(0)
+                new FirmbankingRequest.Firmbankingstatus(0),
+                null
         );
         // 2. b 계좌에 입금(외부은행에 펌뱅킹 요청)
         FirmbankingResult result = requestExternalFirmbankingPort.requestExternalFirmbanking(
