@@ -4,19 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
-@NoArgsConstructor // Required by Axon to construct an empty instance to initiate Event Sourcing.
-public class MemberMoneyCreatedEvent {
+@Getter
+@NoArgsConstructor
+public class MemberMoneyIncreasedEventV22 {
     private String aggregateIdentifier;
-    private String membershipId;
-
+    private String targetMembershipId;
+    private int amount;
 
     @Override
     public String toString() {
-        return "MemberMoneyCreatedEvent{" +
+        return "MemberMoneyIncreasedEvent{" +
                 "aggregateIdentifier='" + aggregateIdentifier + '\'' +
-                ", membershipId='" + membershipId + '\'' +
+                ", targetMembershipId='" + targetMembershipId + '\'' +
+                ", amount=" + amount +
                 '}';
     }
 }

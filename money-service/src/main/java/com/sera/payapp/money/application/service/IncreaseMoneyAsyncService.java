@@ -17,7 +17,6 @@ import com.sera.payapp.money.domain.ChangingMoneyType;
 import com.sera.payapp.money.domain.MemberMoney;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,7 +25,6 @@ import java.util.UUID;
 
 @UseCase
 @Service
-@Primary
 @RequiredArgsConstructor
 public class IncreaseMoneyAsyncService implements IncreaseMoneyUseCase {
     private final SendRechargingMoneyTaskPort sendRechargingMoneyTaskPort;
@@ -66,7 +64,7 @@ public class IncreaseMoneyAsyncService implements IncreaseMoneyUseCase {
 
         // 4. task Result consume
         String taskResult = countDownLatchManager.getDataForKey(taskId);
-        if(taskResult.equals("success")) {
+        if (taskResult.equals("success")) {
             // 5-1. task-result-consumer: task 결과가 success 이면, 충전금액을 증액한다.
             MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
                     new MemberMoney.MembershipId(command.getTargetMembershipId()),
