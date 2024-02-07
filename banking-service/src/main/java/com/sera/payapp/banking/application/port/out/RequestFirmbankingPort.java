@@ -17,4 +17,8 @@ public interface RequestFirmbankingPort {
     );
 
     FirmbankingRequestJpaEntity modifyFirmbankingRequest(FirmbankingRequestJpaEntity firmbankingRequestJpaEntity);
+
+    FirmbankingRequestJpaEntity getFirmbankingRequest(
+            FirmbankingRequest.FirmbankingAggregateIdentifier firmbankingAggregateIdentifier
+    );
 }

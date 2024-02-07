@@ -37,4 +37,10 @@ public class FirmbankingRequestPersistenceAdapter implements RequestFirmbankingP
     public FirmbankingRequestJpaEntity modifyFirmbankingRequest(FirmbankingRequestJpaEntity firmbankingRequestJpaEntity) {
         return firmbankingRequestRepository.save(firmbankingRequestJpaEntity);
     }
+
+    @Override
+    public FirmbankingRequestJpaEntity getFirmbankingRequest(FirmbankingRequest.FirmbankingAggregateIdentifier firmbankingAggregateIdentifier) {
+        return firmbankingRequestRepository.findByAggregateIdentifier(firmbankingAggregateIdentifier.getAggregateIdentifier())
+                .orElseGet(() -> null);
+    }
 }
