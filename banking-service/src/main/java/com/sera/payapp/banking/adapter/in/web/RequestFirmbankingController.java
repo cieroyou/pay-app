@@ -2,13 +2,17 @@ package com.sera.payapp.banking.adapter.in.web;
 
 
 import com.sera.payapp.banking.adapter.in.web.dto.RequestFirmbankingRequest;
+import com.sera.payapp.banking.adapter.in.web.dto.UpdateFirmbankingRequest;
 import com.sera.payapp.banking.application.port.in.RequestFirmbankingCommand;
 import com.sera.payapp.banking.application.port.in.RequestFirmbankingUseCase;
+import com.sera.payapp.banking.application.port.in.UpdateFirmbankingCommand;
+import com.sera.payapp.banking.application.port.in.UpdateFirmbankingUseCase;
 import com.sera.payapp.banking.domain.FirmbankingRequest;
 import com.sera.payapp.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestFirmbankingController {
 
     private final RequestFirmbankingUseCase requestFirmbankingUseCase;
+    private final UpdateFirmbankingUseCase updateFirmbankingUseCase;
 
     @PostMapping(value = "/banking/firmbanking/request")
     ResponseEntity<FirmbankingRequest> registerBankAccount(@RequestBody RequestFirmbankingRequest request) {
@@ -31,4 +36,12 @@ public class RequestFirmbankingController {
                         .build()
         ));
     }
+
+    @PutMapping(value = "/banking/firmbanking/update")
+    void updateFirmbanking(@RequestBody UpdateFirmbankingRequest request) {
+        updateFirmbankingUseCase.updateFirmbanking(
+                new UpdateFirmbankingCommand(request.getFirmbankingAggregateIdentifier(), request.getStatus()));
+    }
+
+
 }

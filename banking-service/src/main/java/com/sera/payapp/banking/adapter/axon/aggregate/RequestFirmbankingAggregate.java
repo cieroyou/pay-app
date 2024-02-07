@@ -1,7 +1,9 @@
 package com.sera.payapp.banking.adapter.axon.aggregate;
 
 import com.sera.payapp.banking.adapter.axon.command.RequestFirmbankingCreatedCommand;
+import com.sera.payapp.banking.adapter.axon.command.RequestFirmbankingUpdatedCommand;
 import com.sera.payapp.banking.adapter.axon.event.RequestFirmbankingCreatedEvent;
+import com.sera.payapp.banking.adapter.axon.event.RequestFirmbankingUpdaedEvent;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +49,16 @@ public class RequestFirmbankingAggregate {
                 .build());
     }
 
+    @CommandHandler
+    public String handle(RequestFirmbankingUpdatedCommand command) {
+        id = command.getAggregateIdentifier();
+
+        // store event
+        apply(new RequestFirmbankingUpdaedEvent(command.getFirmbankingStatus()));
+        log.info("UpdateRequestFirmbankingCommand Handler, aggregateId: {}, command: {}", id, command);
+
+        return id;
+    }
 
     @EventSourcingHandler
     public void on(RequestFirmbankingCreatedEvent event) {
@@ -58,6 +70,15 @@ public class RequestFirmbankingAggregate {
         moneyAmount = event.getAmount();
         log.info("RequestFirmbankingCreatedEvent Sourcing Handler, aggregateId: {}, event: {}", id, event);
     }
+
+
+    @EventSourcingHandler
+    public void on(RequestFirmbankingUpdaedEvent event) {
+        firmbankingStatus = event.getFirmbankingStatus();
+        log.info("UpdateRequestFirmbankingEvent Sourcing Handler, aggregateId: {}, event: {}", id, event);
+
+    }
+
 
     @Override
     public String toString() {
