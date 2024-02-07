@@ -25,6 +25,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // axon
+    implementation 'org.axonframework:axon-spring-boot-starter:4.9.1'
 }
 
 test {

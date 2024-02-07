@@ -8,3 +8,8 @@ server:
 service:
   membership:
     url: http://localhost:8081
+axon:
+  serializer:
+    general: xstream
+    messages: jackson
+    events: jackson
