@@ -18,10 +18,10 @@ public class GetBankAccountController {
 
     private final GetRegisteredBankAccountUseCase getRegisteredBankAccountUseCase;
 
-    @GetMapping(value = "/banking/account/{registeredBankAccountId}")
-    ResponseEntity<RegisteredBankAccount> getRegisteredBankAccount(@Schema(description = "RegisteredBankAccount ID", example = "1")
-                                                                   @PathVariable(name = "registeredBankAccountId") String registeredBankAccountId) {
-        GetRegisteredBankAccountQuery query = new GetRegisteredBankAccountQuery(registeredBankAccountId);
+    @GetMapping(value = "/banking/account/{membershipId}")
+    ResponseEntity<RegisteredBankAccount> getRegisteredBankAccount(@Schema(description = "membershipId", example = "1")
+                                                                   @PathVariable(name = "membershipId") String membershipId) {
+        GetRegisteredBankAccountQuery query = new GetRegisteredBankAccountQuery(membershipId);
         return ResponseEntity.ok(getRegisteredBankAccountUseCase.getRegisteredBankAccount(query));
     }
 }

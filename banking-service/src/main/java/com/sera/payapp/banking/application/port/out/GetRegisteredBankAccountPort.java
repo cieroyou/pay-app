@@ -4,5 +4,5 @@ import com.sera.payapp.banking.adapter.out.persistence.registered_bank_account.R
 import com.sera.payapp.banking.domain.RegisteredBankAccount;
 
 public interface GetRegisteredBankAccountPort {
-    RegisteredBankAccountJpaEntity getRegisteredBankAccount(RegisteredBankAccount.RegisteredBankAccountId registeredBankAccountId);
+    RegisteredBankAccountJpaEntity getRegisteredBankAccount(RegisteredBankAccount.MembershipId membershipId);
 }
