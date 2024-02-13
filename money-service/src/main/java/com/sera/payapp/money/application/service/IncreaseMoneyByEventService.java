@@ -1,7 +1,7 @@
 package com.sera.payapp.money.application.service;
 
 import com.sera.payapp.common.UseCase;
-import com.sera.payapp.money.adapter.axon.command.MemberMoneyIncreasedCommand;
+import com.sera.payapp.money.adapter.axon.command.RechargingMoneyRequestCreatedCommand;
 import com.sera.payapp.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.sera.payapp.money.adapter.out.persistence.MoneyChangingRequestMapper;
 import com.sera.payapp.money.application.port.in.IncreaseMoneyCommand;
@@ -9,8 +9,6 @@ import com.sera.payapp.money.application.port.in.IncreaseMoneyUseCase;
 import com.sera.payapp.money.application.port.out.GetMemberMoneyPort;
 import com.sera.payapp.money.application.port.out.IncreaseMoneyChangingRequestPort;
 import com.sera.payapp.money.application.port.out.IncreaseMoneyPort;
-import com.sera.payapp.money.domain.ChangingMoneyStatus;
-import com.sera.payapp.money.domain.ChangingMoneyType;
 import com.sera.payapp.money.domain.MemberMoney;
 import com.sera.payapp.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
@@ -39,31 +37,49 @@ public class IncreaseMoneyByEventService implements IncreaseMoneyUseCase {
                 = getMemberMoneyPort.getMemberMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()));
         String aggregateIdentifier = memberMoneyJpaEntity.getAggregateIdentifier();
 
-        MemberMoneyIncreasedCommand axonCommand =
-                new MemberMoneyIncreasedCommand(aggregateIdentifier, command.getTargetMembershipId(), command.getAmount());
-        commandGateway.send(axonCommand)
+        // Saga 의 시작을 나타내는 커맨드!!!!!!!
+        String rechargingMoneyRequestId = UUID.randomUUID().toString();
+        log.info("MoneyRecharging Saga Start, rechargingMoneyRequestId: {}", rechargingMoneyRequestId);
+        commandGateway.send(RechargingMoneyRequestCreatedCommand.builder()
+                        .aggregateIdentifier(aggregateIdentifier)
+                        .rechargingRequestId(rechargingMoneyRequestId)
+                        .membershipId(command.getTargetMembershipId())
+                        .amount(command.getAmount())
+                        .build())
                 .whenComplete((result, throwable) -> {
                     if (throwable != null) {
                         log.error("IncreaseMoneyByEventService.increaseMoney() failed, throwable: " + throwable);
                         throw new RuntimeException(throwable);
-                    } else {
-                        log.info("IncreaseMoneyByEventService.increaseMoney() success, result: {}", result);
-                        MemberMoneyJpaEntity memberMoney =
-                                increaseMoneyPort.increaseMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()), command.getAmount());
-
-                        if (memberMoney != null) {
-                            // MemberMoney 를 성공적으로 증액한 경우
-                            moneyChangingRequestMapper.mapToDomainEntity(increaseMoneyChangingRequestPort.increaseMoney(
-                                    new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
-                                    new MoneyChangingRequest.MoneyChangingType(ChangingMoneyType.INCREASING),
-                                    new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
-                                    new MoneyChangingRequest.LinkedStatusIsValid(true),
-                                    new MoneyChangingRequest.MoneyChangingStatus(ChangingMoneyStatus.SUCCESS),
-                                    new MoneyChangingRequest.Uuid(UUID.randomUUID())));
-                        }
-                        log.info("IncreaseMoneyByEventService.increaseMoney() success, memberMoney: {}", memberMoney);
                     }
+                    log.info("IncreaseMoneyByEventService.increaseMoney() success, aggregateId: {}", result.toString());
                 });
+
+
+//        MemberMoneyIncreasedCommand axonCommand =
+//                new MemberMoneyIncreasedCommand(aggregateIdentifier, command.getTargetMembershipId(), command.getAmount());
+//        commandGateway.send(axonCommand)
+//                .whenComplete((result, throwable) -> {
+//                    if (throwable != null) {
+//                        log.error("IncreaseMoneyByEventService.increaseMoney() failed, throwable: " + throwable);
+//                        throw new RuntimeException(throwable);
+//                    } else {
+//                        log.info("IncreaseMoneyByEventService.increaseMoney() success, result: {}", result);
+//                        MemberMoneyJpaEntity memberMoney =
+//                                increaseMoneyPort.increaseMoney(new MemberMoney.MembershipId(command.getTargetMembershipId()), command.getAmount());
+//
+//                        if (memberMoney != null) {
+//                            // MemberMoney 를 성공적으로 증액한 경우
+//                            moneyChangingRequestMapper.mapToDomainEntity(increaseMoneyChangingRequestPort.increaseMoney(
+//                                    new MoneyChangingRequest.TargetMembershipId(command.getTargetMembershipId()),
+//                                    new MoneyChangingRequest.MoneyChangingType(ChangingMoneyType.INCREASING),
+//                                    new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
+//                                    new MoneyChangingRequest.LinkedStatusIsValid(true),
+//                                    new MoneyChangingRequest.MoneyChangingStatus(ChangingMoneyStatus.SUCCESS),
+//                                    new MoneyChangingRequest.Uuid(UUID.randomUUID())));
+//                        }
+//                        log.in fo ("IncreaseMoneyByEventService.increaseMoney() success, memberMoney: {}", memberMoney);
+//                    }
+//                });
         return null;
     }
 }
