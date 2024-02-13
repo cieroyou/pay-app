@@ -15,4 +15,5 @@ public class RegisterBankAccountRequest {
     // TODO: enum 으로 리팩토링 할 것
     private String bankName;
     private String bankAccountNumber;
+    private Boolean isValid;
 }

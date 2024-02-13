@@ -14,11 +14,13 @@ public class RegisterBankAccountCommand extends SelfValidating<RegisterBankAccou
     // TODO: enum 으로 리팩토링 할 것
     private String bankName;
     private String bankAccountNumber;
+    private Boolean isValid;
 
-    public RegisterBankAccountCommand(String membershipId, String bankName, String bankAccountNumber) {
+    public RegisterBankAccountCommand(String membershipId, String bankName, String bankAccountNumber, boolean isValid) {
         this.membershipId = membershipId;
         this.bankName = bankName;
         this.bankAccountNumber = bankAccountNumber;
+        this.isValid = isValid;
         this.validateSelf();
 
     }
