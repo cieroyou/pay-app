@@ -77,7 +77,7 @@ public class MemberMoneyAggregate {
         RegisteredBankAccountWithAggregateIdentifier registeredBankAccountWithAggregateIdentifier
                 = getRegisteredBankAccountPort.getRegisteredBankAccount(command.getMembershipId());
 
-        String registeredBankAccountAggregateId = UUID.randomUUID().toString();
+        String registeredBankAccountAggregateId = registeredBankAccountWithAggregateIdentifier.getAggregateIdentifier();
         log.info("Saga 시작, registeredBankAccountAggregateId: {}", registeredBankAccountAggregateId);
         // Saga 시작!
         apply(RechargingMoneyRequestCreatedEvent.builder()
