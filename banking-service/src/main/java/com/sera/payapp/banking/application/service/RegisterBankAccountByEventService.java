@@ -44,7 +44,8 @@ public class RegisterBankAccountByEventService implements RegisterBankAccountUse
                         new RegisteredBankAccount.MembershipId(command.getMembershipId()),
                         new RegisteredBankAccount.BankName(command.getBankName()),
                         new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),
-                        new RegisteredBankAccount.LinkedStatusIsValid(command.getIsValid())
+                        new RegisteredBankAccount.LinkedStatusIsValid(command.getIsValid()),
+                        new RegisteredBankAccount.AggregateIdentifier(aggregateId)
                 );
                 log.info("create Bank account, RegisteredBankAccountJpaEntity: {}", jpaEntity);
             }
