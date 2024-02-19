@@ -6,7 +6,6 @@ import com.sera.payapp.banking.domain.FirmbankingRequest;
 public interface RequestFirmbankingPort {
 
     FirmbankingRequestJpaEntity createFirmbankingRequest(
-            FirmbankingRequest.FirmbankingRequestId firmbankingRequestId,
             FirmbankingRequest.FromBankName fromBankName,
             FirmbankingRequest.FromBankAccountNumber fromBankAccountNumber,
             FirmbankingRequest.ToBankName toBankName,

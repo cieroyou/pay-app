@@ -14,7 +14,6 @@ public class FirmbankingRequestPersistenceAdapter implements RequestFirmbankingP
 
     @Override
     public FirmbankingRequestJpaEntity createFirmbankingRequest(
-            FirmbankingRequest.FirmbankingRequestId firmbankingRequestId,
             FirmbankingRequest.FromBankName fromBankName,
             FirmbankingRequest.FromBankAccountNumber fromBankAccountNumber,
             FirmbankingRequest.ToBankName toBankName,
