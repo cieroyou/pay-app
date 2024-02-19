@@ -2,7 +2,10 @@ package com.sera.payapp.money.adapter.axon.saga;
 
 import com.sera.payapp.common.event.CheckRegisteredBankAccountCommand;
 import com.sera.payapp.common.event.CheckedRegisteredBankAccountEvent;
+import com.sera.payapp.common.event.RequestFirmbankingCommand;
+import com.sera.payapp.common.event.RequestFirmbankingFinishedEvent;
 import com.sera.payapp.money.adapter.axon.event.RechargingMoneyRequestCreatedEvent;
+import com.sera.payapp.money.application.port.out.IncreaseMoneyPort;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -24,6 +27,8 @@ import java.util.UUID;
 public class MoneyRechargeSaga {
     private static final String RECHARGING_REQUEST_ID_ASSOCIATION = "rechargingRequestId";
     private static final String CHECK_REGISTERED_BANK_ACCOUNT_ID_ASSOCIATION = "checkRegisteredBankAccountId";
+    private static final String REQUEST_FIRMBANKING_ID_ASSOCIATION = "requestFirmbankingId";
+
 
     @Autowired
     private transient CommandGateway commandGateway;
@@ -43,6 +48,7 @@ public class MoneyRechargeSaga {
         String checkRegisteredBankAccountId = UUID.randomUUID().toString();
         SagaLifecycle.associateWith(CHECK_REGISTERED_BANK_ACCOUNT_ID_ASSOCIATION, checkRegisteredBankAccountId);
 
+        // CheckRegisterBankAccountCommand 를 보내면 결과값으로 CheckedRegisteredBankAccountEvent 가 비동기로 발생된다.
         commandGateway.send(new CheckRegisteredBankAccountCommand(
                 event.getRegisteredBankAccountAggregateIdentifier(),
                 event.getRechargingRequestId(),
@@ -58,13 +64,43 @@ public class MoneyRechargeSaga {
             }
             log.info("CheckRegisteredBankAccountCommand success, aggregateId: {}", result.toString());
         });
-        // CheckRegisterBankAccountCommand -> Check Bank Account
-        // axon server -> banking-service -> Command
 
     }
 
     @SagaEventHandler(associationProperty = CHECK_REGISTERED_BANK_ACCOUNT_ID_ASSOCIATION)
     public void handle(CheckedRegisteredBankAccountEvent event) {
         log.info("CheckedRegisteredBankAccountEvent saga: " + event.toString());
+        boolean registeredBankAccountIsValid = event.isChecked();
+        // 연결된 계좌 체크 결과
+        log.info("CheckedRegisteredBankAccountEvent, registeredBankAccountIsValid: " + registeredBankAccountIsValid);
+
+        // 송금 요청(to banking service - RequestFirmbankingAggregate)
+        // 고객계좌 -> 법인계좌(법인계좌뱅크명
+        String requestFirmbankingId = UUID.randomUUID().toString();
+        SagaLifecycle.associateWith(REQUEST_FIRMBANKING_ID_ASSOCIATION, requestFirmbankingId);
+        commandGateway.send(new RequestFirmbankingCommand(
+                requestFirmbankingId,
+                event.getFirmbankingRequestAggregateIdentifier()
+                , event.getRechargingRequestId()
+                , event.getMembershipId()
+                , event.getFromBankName()
+                , event.getFromBankAccountNumber()
+                , "SeraBank"
+                , "123456789"
+                , event.getAmount()
+        )).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                log.error("RequestFirmbankingCommand failed, throwable: " + throwable);
+                throw new RuntimeException(throwable);
+            }
+            log.info("RequestFirmbankingCommand success, aggregateId: {}", result.toString());
+        });
+
+    }
+
+    @SagaEventHandler(associationProperty = REQUEST_FIRMBANKING_ID_ASSOCIATION)
+    public void handle(RequestFirmbankingFinishedEvent event, IncreaseMoneyPort increaseMoneyPort) {
+        log.info("RequestFirmbankingFinishedEvent saga: " + event.toString());
+
     }
 }

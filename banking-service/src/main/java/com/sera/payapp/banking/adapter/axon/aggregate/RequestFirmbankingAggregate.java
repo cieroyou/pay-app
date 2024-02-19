@@ -4,6 +4,13 @@ import com.sera.payapp.banking.adapter.axon.command.RequestFirmbankingCreatedCom
 import com.sera.payapp.banking.adapter.axon.command.RequestFirmbankingUpdatedCommand;
 import com.sera.payapp.banking.adapter.axon.event.RequestFirmbankingCreatedEvent;
 import com.sera.payapp.banking.adapter.axon.event.RequestFirmbankingUpdaedEvent;
+import com.sera.payapp.banking.adapter.out.external.bank.ExternalFirmbankingRequest;
+import com.sera.payapp.banking.adapter.out.external.bank.FirmbankingResult;
+import com.sera.payapp.banking.application.port.out.RequestExternalFirmbankingPort;
+import com.sera.payapp.banking.application.port.out.RequestFirmbankingPort;
+import com.sera.payapp.banking.domain.FirmbankingRequest;
+import com.sera.payapp.common.event.RequestFirmbankingCommand;
+import com.sera.payapp.common.event.RequestFirmbankingFinishedEvent;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +65,52 @@ public class RequestFirmbankingAggregate {
         log.info("UpdateRequestFirmbankingCommand Handler, aggregateId: {}, command: {}", id, command);
 
         return id;
+    }
+
+    /**
+     * 펌뱅킹정보 저장, 펌뱅킹 실행 후, 결과를 RequestFirmbankingFinishedEvent 로 전달
+     *
+     * @param command 펌뱅킹 요청 Command
+     */
+    @CommandHandler
+    public RequestFirmbankingAggregate(RequestFirmbankingCommand command,
+                                       RequestFirmbankingPort requestFirmbankingPort,
+                                       RequestExternalFirmbankingPort externalFirmbankingPort) {
+        id = command.getAggregateIdentifier();
+
+        // RequestFirmbanking 데이터 디비 저장
+        requestFirmbankingPort.createFirmbankingRequest(
+                new FirmbankingRequest.FromBankName(command.getFromBankName()),
+                new FirmbankingRequest.FromBankAccountNumber(command.getFromBankAccountNumber()),
+                new FirmbankingRequest.ToBankName(command.getToBankName()),
+                new FirmbankingRequest.ToBankAccountNumber(command.getToBankAccountNumber()),
+                new FirmbankingRequest.MoneyAmount(command.getMoneyAmount()),
+                new FirmbankingRequest.Firmbankingstatus(0),
+                new FirmbankingRequest.FirmbankingAggregateIdentifier(id)
+        );
+
+        // firmbanking!
+        FirmbankingResult firmbankingResult = externalFirmbankingPort.requestExternalFirmbanking(new ExternalFirmbankingRequest(
+                command.getFromBankName(),
+                command.getFromBankAccountNumber(),
+                command.getToBankName(),
+                command.getToBankAccountNumber(),
+                command.getMoneyAmount()
+        ));
+
+        int resultCode = firmbankingResult.getResultCode();
+        // 0. 성공, 1. 실패
+        apply(new RequestFirmbankingFinishedEvent(
+                command.getRequestFirmbankingId(),
+                command.getRechargeRequestId(),
+                command.getMembershipId(),
+                command.getToBankName(),
+                command.getToBankAccountNumber(),
+                command.getMoneyAmount(),
+                resultCode,
+                id
+        ));
+
     }
 
     @EventSourcingHandler

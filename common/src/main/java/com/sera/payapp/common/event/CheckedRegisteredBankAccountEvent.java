@@ -21,10 +21,13 @@ public class CheckedRegisteredBankAccountEvent {
     public String toString() {
         return "CheckedRegisteredBankAccountEvent{" +
                 "rechargingRequestId='" + rechargingRequestId + '\'' +
+                ", checkRegisteredBankAccountId='" + checkRegisteredBankAccountId + '\'' +
                 ", membershipId='" + membershipId + '\'' +
                 ", isChecked=" + isChecked +
                 ", amount=" + amount +
                 ", firmbankingRequestAggregateIdentifier='" + firmbankingRequestAggregateIdentifier + '\'' +
+                ", fromBankName='" + fromBankName + '\'' +
+                ", fromBankAccountNumber='" + fromBankAccountNumber + '\'' +
                 '}';
     }
 }
