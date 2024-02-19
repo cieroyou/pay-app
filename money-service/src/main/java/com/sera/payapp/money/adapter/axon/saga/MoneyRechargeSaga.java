@@ -1,14 +1,14 @@
 package com.sera.payapp.money.adapter.axon.saga;
 
-import com.sera.payapp.common.event.CheckRegisteredBankAccountCommand;
-import com.sera.payapp.common.event.CheckedRegisteredBankAccountEvent;
-import com.sera.payapp.common.event.RequestFirmbankingCommand;
-import com.sera.payapp.common.event.RequestFirmbankingFinishedEvent;
+import com.sera.payapp.common.event.*;
 import com.sera.payapp.money.adapter.axon.event.RechargingMoneyRequestCreatedEvent;
+import com.sera.payapp.money.adapter.out.persistence.MemberMoneyJpaEntity;
 import com.sera.payapp.money.application.port.out.IncreaseMoneyPort;
+import com.sera.payapp.money.domain.MemberMoney;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
@@ -28,6 +28,7 @@ public class MoneyRechargeSaga {
     private static final String RECHARGING_REQUEST_ID_ASSOCIATION = "rechargingRequestId";
     private static final String CHECK_REGISTERED_BANK_ACCOUNT_ID_ASSOCIATION = "checkRegisteredBankAccountId";
     private static final String REQUEST_FIRMBANKING_ID_ASSOCIATION = "requestFirmbankingId";
+    private static final String ROLLBACK_FIRMBANKING_ID_ASSOCIATION = "rollbackFirmbankingId";
 
 
     @Autowired
@@ -100,7 +101,45 @@ public class MoneyRechargeSaga {
 
     @SagaEventHandler(associationProperty = REQUEST_FIRMBANKING_ID_ASSOCIATION)
     public void handle(RequestFirmbankingFinishedEvent event, IncreaseMoneyPort increaseMoneyPort) {
-        log.info("RequestFirmbankingFinishedEvent saga: " + event.toString());
+        boolean firmbankingStatus = event.getStatus() == 0;
+        log.info("RequestFirmbankingFinishedEvent saga: {}, firmbankingStatus: {}", event.toString(), firmbankingStatus);
 
+        // DB Update 명령.
+        MemberMoneyJpaEntity resultEntity =
+                increaseMoneyPort.increaseMoney(
+                        new MemberMoney.MembershipId(event.getMembershipId())
+                        , event.getMoneyAmount()
+                );
+        if (resultEntity == null) {
+            // DB 업데이트 실패시, 롤백 이벤트
+            String rollbackFirmbankingId = UUID.randomUUID().toString();
+            SagaLifecycle.associateWith(ROLLBACK_FIRMBANKING_ID_ASSOCIATION, rollbackFirmbankingId);
+            commandGateway.send(new RollbackFirmbankingRequestCommand(
+                    rollbackFirmbankingId
+                    , event.getRequestFirmbankingAggregateIdentifier()
+                    , event.getRechargingRequestId()
+                    , event.getMembershipId()
+                    , event.getToBankName()
+                    , event.getToBankAccountNumber()
+                    , event.getMoneyAmount()
+            )).whenComplete((result, throwable) -> {
+                if (throwable != null) {
+                    log.error("RollbackFirmbankingRequestCommand failed, throwable: " + throwable);
+                    throw new RuntimeException(throwable);
+                }
+                log.info("RollbackFirmbankingRequestCommand success, aggregateId: {}", result.toString());
+                SagaLifecycle.end();
+            });
+        } else {
+            // 성공 시 saga 종료
+            SagaLifecycle.end();
+        }
+
+    }
+
+    @EndSaga
+    @SagaEventHandler(associationProperty = "rollbackFirmbankingId")
+    public void handle(RollbackFirmbankingFinishedEvent event) {
+        log.info("RollbackFirmbankingFinishedEvent saga: " + event.toString());
     }
 }

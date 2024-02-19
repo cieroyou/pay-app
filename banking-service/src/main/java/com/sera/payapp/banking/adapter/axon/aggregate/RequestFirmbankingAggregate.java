@@ -11,6 +11,8 @@ import com.sera.payapp.banking.application.port.out.RequestFirmbankingPort;
 import com.sera.payapp.banking.domain.FirmbankingRequest;
 import com.sera.payapp.common.event.RequestFirmbankingCommand;
 import com.sera.payapp.common.event.RequestFirmbankingFinishedEvent;
+import com.sera.payapp.common.event.RollbackFirmbankingFinishedEvent;
+import com.sera.payapp.common.event.RollbackFirmbankingRequestCommand;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -110,6 +112,40 @@ public class RequestFirmbankingAggregate {
                 resultCode,
                 id
         ));
+
+    }
+
+    @CommandHandler
+    public RequestFirmbankingAggregate(
+            RollbackFirmbankingRequestCommand command,
+            RequestFirmbankingPort requestFirmbankingPort,
+            RequestExternalFirmbankingPort externalFirmbankingPort) {
+        log.info("RollbackFirmbankingRequestCommand Handler, command: {}", command);
+        id = UUID.randomUUID().toString();
+        requestFirmbankingPort.createFirmbankingRequest(
+                new FirmbankingRequest.FromBankName("SeraBank"),
+                new FirmbankingRequest.FromBankAccountNumber("123-333-9999"),
+                new FirmbankingRequest.ToBankName(command.getBankName()),
+                new FirmbankingRequest.ToBankAccountNumber(command.getBankAccountNumber()),
+                new FirmbankingRequest.MoneyAmount(command.getMoneyAmount()),
+                new FirmbankingRequest.Firmbankingstatus(0),
+                new FirmbankingRequest.FirmbankingAggregateIdentifier(id));
+
+        // firmbanking!
+        externalFirmbankingPort.requestExternalFirmbanking(
+                new ExternalFirmbankingRequest(
+                        "SeraBank",
+                        "123-333-9999",
+                        command.getBankName(),
+                        command.getBankAccountNumber(),
+                        command.getMoneyAmount()
+                ));
+
+        apply(new RollbackFirmbankingFinishedEvent(
+                command.getRollbackFirmbankingId(),
+                command.getMembershipId(),
+                id)
+        );
 
     }
 
