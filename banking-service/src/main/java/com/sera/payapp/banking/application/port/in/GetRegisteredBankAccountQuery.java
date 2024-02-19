@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GetRegisteredBankAccountQuery {
-    String registeredBankAccountId;
+    String membershipId;
 
 }

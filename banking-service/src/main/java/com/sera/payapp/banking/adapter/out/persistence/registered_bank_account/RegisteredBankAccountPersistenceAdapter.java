@@ -16,18 +16,20 @@ public class RegisteredBankAccountPersistenceAdapter implements RegisterBankAcco
             RegisteredBankAccount.MembershipId membershipId,
             RegisteredBankAccount.BankName bankName,
             RegisteredBankAccount.BankAccountNumber bankAccountNumber,
-            RegisteredBankAccount.LinkedStatusIsValid linkedStatusIsValid) {
+            RegisteredBankAccount.LinkedStatusIsValid linkedStatusIsValid,
+            RegisteredBankAccount.AggregateIdentifier aggregateIdentifier) {
         return registeredBankAccountRepository.save(new RegisteredBankAccountJpaEntity(
                 membershipId.getMembershipId(),
                 bankName.getBankName(),
                 bankAccountNumber.getBankAccountNumber(),
-                linkedStatusIsValid.isLinkedStatusIsValid())
-        );
+                linkedStatusIsValid.isLinkedStatusIsValid(),
+                aggregateIdentifier.getAggregateIdentifier()
+        ));
 
     }
 
     @Override
-    public RegisteredBankAccountJpaEntity getRegisteredBankAccount(RegisteredBankAccount.RegisteredBankAccountId registeredBankAccountId) {
-        return registeredBankAccountRepository.getById(Long.valueOf(registeredBankAccountId.getRegisteredBankAccountId()));
+    public RegisteredBankAccountJpaEntity getRegisteredBankAccount(RegisteredBankAccount.MembershipId membershipId) {
+        return registeredBankAccountRepository.findByMembershipId(membershipId.getMembershipId()).get();
     }
 }

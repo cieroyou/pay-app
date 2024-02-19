@@ -20,7 +20,7 @@ public class GetRegisteredBankAccountService implements GetRegisteredBankAccount
     @Override
     public RegisteredBankAccount getRegisteredBankAccount(GetRegisteredBankAccountQuery query) {
         RegisteredBankAccountJpaEntity registeredBankAccount = getRegisteredBankAccountPort.getRegisteredBankAccount(
-                new RegisteredBankAccount.RegisteredBankAccountId(query.getRegisteredBankAccountId()));
+                new RegisteredBankAccount.MembershipId(query.getMembershipId()));
         return registeredBankAccountMapper.mapToDomainEntity(registeredBankAccount);
     }
 }

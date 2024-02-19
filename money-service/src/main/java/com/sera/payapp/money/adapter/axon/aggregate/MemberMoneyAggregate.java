@@ -2,8 +2,12 @@ package com.sera.payapp.money.adapter.axon.aggregate;
 
 import com.sera.payapp.money.adapter.axon.command.MemberMoneyCreatedCommand;
 import com.sera.payapp.money.adapter.axon.command.MemberMoneyIncreasedCommand;
+import com.sera.payapp.money.adapter.axon.command.RechargingMoneyRequestCreatedCommand;
 import com.sera.payapp.money.adapter.axon.event.MemberMoneyCreatedEvent;
 import com.sera.payapp.money.adapter.axon.event.MemberMoneyIncreasedEvent;
+import com.sera.payapp.money.adapter.axon.event.RechargingMoneyRequestCreatedEvent;
+import com.sera.payapp.money.application.port.out.GetRegisteredBankAccountPort;
+import com.sera.payapp.money.application.port.out.dto.RegisteredBankAccountWithAggregateIdentifier;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +60,35 @@ public class MemberMoneyAggregate {
                 command.getAmount())
         );
         return id;
+    }
+
+    /**
+     * Saga Start!!!
+     *
+     * @param command
+     * @return
+     */
+    @CommandHandler
+    public void handle(RechargingMoneyRequestCreatedCommand command, GetRegisteredBankAccountPort getRegisteredBankAccountPort) {
+        log.info("RechargingMoneyRequestCreatedCommand Handler, command: {}", command);
+        // MemberMoney aggregate Identifier
+        id = command.getAggregateIdentifier();
+        // MemberMoney에 연결된 계좌의 Banking 정보가 필요함 -> Banking Service 에 membershipId 로 BankAccount 정보 가져옴
+        RegisteredBankAccountWithAggregateIdentifier registeredBankAccountWithAggregateIdentifier
+                = getRegisteredBankAccountPort.getRegisteredBankAccount(command.getMembershipId());
+
+        String registeredBankAccountAggregateId = registeredBankAccountWithAggregateIdentifier.getAggregateIdentifier();
+        log.info("Saga 시작, registeredBankAccountAggregateId: {}", registeredBankAccountAggregateId);
+        // Saga 시작!
+        apply(RechargingMoneyRequestCreatedEvent.builder()
+                .rechargingRequestId(command.getRechargingRequestId())
+                .membershipId(command.getMembershipId())
+                .amount(command.getAmount())
+                .bankName(registeredBankAccountWithAggregateIdentifier.getBankName())
+                .bankAccountNumber(registeredBankAccountWithAggregateIdentifier.getBankAccountNumber())
+//                .registeredBankAccountAggregateIdentifier(registeredBankAccountWithAggregateIdentifier.getAggregateIdentifier())
+                .registeredBankAccountAggregateIdentifier(registeredBankAccountAggregateId)
+                .build());
     }
 
     /**

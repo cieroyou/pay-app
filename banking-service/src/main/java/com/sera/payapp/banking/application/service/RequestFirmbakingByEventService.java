@@ -45,7 +45,6 @@ public class RequestFirmbakingByEventService implements RequestFirmbankingUseCas
 
                 // 1. firmbankingRequest 생성
                 FirmbankingRequestJpaEntity firmbankingRequestJpaEntity = requestFirmbankingPort.createFirmbankingRequest(
-                        new FirmbankingRequest.FirmbankingRequestId(UUID.randomUUID().toString()),
                         new FirmbankingRequest.FromBankName(command.getFromBankName()),
                         new FirmbankingRequest.FromBankAccountNumber(command.getFromBankAccountNumber()),
                         new FirmbankingRequest.ToBankName(command.getToBankName()),

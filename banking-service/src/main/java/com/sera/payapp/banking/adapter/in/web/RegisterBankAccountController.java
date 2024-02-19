@@ -26,9 +26,12 @@ public class RegisterBankAccountController {
                 .membershipId(request.getMembershipId())
                 .bankName(request.getBankName())
                 .bankAccountNumber(request.getBankAccountNumber())
+                .isValid(request.getIsValid())
                 .build();
 
-        return ResponseEntity.ok(registerBankAccountUseCase.registerBankAccount(command));
+        // 이벤트방식이기 때문에 리턴값을 줄 수 없어서 null 로 바로 반환하도록 처리
+        registerBankAccountUseCase.registerBankAccount(command);
+        return ResponseEntity.ok(null);
     }
 
 }

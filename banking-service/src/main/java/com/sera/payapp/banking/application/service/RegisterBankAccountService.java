@@ -14,6 +14,8 @@ import com.sera.payapp.common.UseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 @UseCase
@@ -47,8 +49,9 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
                 new RegisteredBankAccount.MembershipId(command.getMembershipId()),
                 new RegisteredBankAccount.BankName(command.getBankName()),
                 new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),
-                new RegisteredBankAccount.LinkedStatusIsValid(isAccountValid)
-        );
+                new RegisteredBankAccount.LinkedStatusIsValid(isAccountValid),
+                new RegisteredBankAccount.AggregateIdentifier(UUID.randomUUID().toString()
+                ));
         return registeredBankAccountMapper.mapToDomainEntity(jpaEntity);
     }
 }
