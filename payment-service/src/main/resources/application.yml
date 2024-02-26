@@ -1,0 +1,11 @@
+kafka:
+  clusters:
+    bootstrapservers: localhost:9092
+logging.topic: sera.payapp.logging.out.stdout
+service:
+  membership:
+    url: http://localhost:8081
+  banking:
+    url: http://localhost:8080
+server:
+  port: 8086
